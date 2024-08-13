@@ -1,0 +1,31 @@
+class Employee {
+    private String name;
+    private int empId;
+
+    // Default constructor
+    public Employee() {
+        this.name = "Unknown";
+        this.empId = 0;
+    }
+
+    // Parameterized constructor
+    public Employee(String name, int empId) {
+        this.name = name;
+        this.empId = empId;
+    }
+
+    // Display method
+    public void display() {
+        System.out.println("Name: " + name + ", Employee ID: " + empId);
+    }
+
+    public static void main(String[] args) {
+        // Creating objects using default and parameterized constructors
+        Employee emp1 = new Employee(); // Default constructor
+        Employee emp2 = new Employee("Bob", 1001); // Parameterized constructor
+
+        // Displaying employee details
+        emp1.display();
+        emp2.display();
+    }
+}
