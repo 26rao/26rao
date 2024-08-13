@@ -1,0 +1,80 @@
+import java.util.Scanner;
+
+class Matrix {
+    private int[][] data;
+    private int rows;
+    private int cols;
+
+    // Constructor to initialize matrix with rows and columns
+    public Matrix(int rows, int cols) {
+        this.rows = rows;
+        this.cols = cols;
+        data = new int[rows][cols];
+    }
+
+    // Method to input matrix elements
+    public void inputElements() {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Enter elements for the matrix:");
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                System.out.printf("Enter element at [%d][%d]: ", i, j);
+                data[i][j] = sc.nextInt();
+            }
+        }
+    }
+
+    // Method to add two matrices
+    public Matrix add(Matrix other) {
+        if (this.rows != other.rows || this.cols != other.cols) {
+            throw new IllegalArgumentException("Matrices dimensions must match for addition.");
+        }
+
+        Matrix result = new Matrix(this.rows, this.cols);
+        for (int i = 0; i < this.rows; i++) {
+            for (int j = 0; j < this.cols; j++) {
+                result.data[i][j] = this.data[i][j] + other.data[i][j];
+            }
+        }
+        return result;
+    }
+
+    // Method to display matrix
+    public void display() {
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                System.out.print(data[i][j] + " ");
+            }
+            System.out.println();
+        }
+    }
+}
+
+public class MatrixAdditionDemo {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // Input matrix dimensions
+        System.out.println("Enter the number of rows: ");
+        int rows = sc.nextInt();
+        System.out.println("Enter the number of columns: ");
+        int cols = sc.nextInt();
+
+        // Create two matrices
+        Matrix matrix1 = new Matrix(rows, cols);
+        Matrix matrix2 = new Matrix(rows, cols);
+
+        // Input elements for both matrices
+        System.out.println("Input for the first matrix:");
+        matrix1.inputElements();
+        System.out.println("Input for the second matrix:");
+        matrix2.inputElements();
+
+        // Add the matrices
+        Matrix resultMatrix = matrix1.add(matrix2);
+
+        // Display the result
+        System.out.println("Resultant matrix after addition:");
+        resultMatrix.display();
+    }
+}
