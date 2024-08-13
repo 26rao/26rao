@@ -1,0 +1,65 @@
+class BankAccount {
+    private String depositorName;
+    private int accountNumber;
+    private String accountType;
+    private double balance;
+    private static final double INTEREST_RATE = 4.5; // Static final data member
+
+    // Default constructor
+    public BankAccount() {
+        this("Unknown", 0, "Savings", 0.0);
+    }
+
+    // Parameterized constructor
+    public BankAccount(String depositorName, int accountNumber, String accountType, double balance) {
+        this.depositorName = depositorName;
+        this.accountNumber = accountNumber;
+        this.accountType = accountType;
+        this.balance = balance;
+    }
+
+    // Method to deposit amount
+    public void deposit(double amount) {
+        balance += amount;
+    }
+
+    // Method to withdraw amount
+    public void withdraw(double amount) {
+        if (balance - amount >= 1000) { // Assuming minimum balance is 1000
+            balance -= amount;
+        } else {
+            System.out.println("Insufficient balance!");
+        }
+    }
+
+    // Method to display account details
+    public void display() {
+        System.out.println("Name: " + depositorName);
+        System.out.println("Account No: " + accountNumber);
+        System.out.println("Type: " + accountType);
+        System.out.println("Balance: " + balance);
+    }
+
+    // Static method to display interest rate
+    public static void showInterestRate() {
+        System.out.println("Interest Rate: " + INTEREST_RATE + "%");
+    }
+
+    public static void main(String[] args) {
+        // Creating objects using default and parameterized constructors
+        BankAccount account1 = new BankAccount(); // Default constructor
+        BankAccount account2 = new BankAccount("John Doe", 12345, "Checking", 2000.0); // Parameterized constructor
+
+        // Displaying account details
+        account1.display();
+        account2.display();
+
+        // Depositing and withdrawing money
+        account2.deposit(500.0);
+        account2.withdraw(300.0);
+        account2.display();
+
+        // Displaying interest rate
+        BankAccount.showInterestRate();
+    }
+}
