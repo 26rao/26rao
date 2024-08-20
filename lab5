@@ -1,0 +1,246 @@
+LAB 5
+  Q1:
+// Employee.java
+public class Employee {
+    private String name;
+
+    // Constructor
+    public Employee(String name) {
+        this.name = name;
+    }
+
+    // Method to format the employee's name
+    public String formatEmployeeName() {
+        String[] words = name.split(" ");
+        StringBuilder formattedName = new StringBuilder();
+        for (String word : words) {
+            if (word.length() > 0) {
+                formattedName.append(Character.toUpperCase(word.charAt(0)))
+                             .append(word.substring(1).toLowerCase())
+                             .append(" ");
+            }
+        }
+        return formattedName.toString().trim();
+    }
+
+    // Method to generate an email address
+    public String generateEmail() {
+        String[] parts = name.split(" ");
+        String email = parts[0].charAt(0) + parts[1] + "@example.com";
+        return email.toLowerCase();
+    }
+
+    public static void main(String[] args) {
+        Employee emp = new Employee("JOHN DOE");
+        System.out.println("Formatted Name: " + emp.formatEmployeeName()); // Output: John Doe
+        System.out.println("Email: " + emp.generateEmail()); // Output: jdoe@example.com
+    }
+}
+
+Q2:
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+// Student.java
+public class Student {
+    private String name;
+
+    // Constructor
+    public Student(String name) {
+        this.name = name;
+    }
+
+    // Method to extract initials
+    public String extractInitials() {
+        String[] words = name.split(" ");
+        StringBuilder initials = new StringBuilder();
+        for (String word : words) {
+            if (!word.isEmpty()) {
+                initials.append(word.charAt(0));
+            }
+        }
+        return initials.toString().toUpperCase();
+    }
+
+    // Method to remove whitespace
+    public String removeWhitespace() {
+        return name.replaceAll("\\s", "");
+    }
+
+    // Method to list all student names containing a particular substring
+    public static List<String> listNamesContaining(List<Student> students, String substring) {
+        List<String> result = new ArrayList<>();
+        for (Student student : students) {
+            if (student.name.contains(substring)) {
+                result.add(student.name);
+            }
+        }
+        return result;
+    }
+
+    // Method to sort students alphabetically
+    public static void sortStudentsAlphabetically(List<Student> students) {
+        Collections.sort(students, (s1, s2) -> s1.name.compareTo(s2.name));
+    }
+
+    public static void main(String[] args) {
+        List<Student> students = new ArrayList<>();
+        students.add(new Student("John Doe"));
+        students.add(new Student("Jane Smith"));
+        students.add(new Student("Alice Johnson"));
+
+        for (Student student : students) {
+            System.out.println("Initials: " + student.extractInitials());
+            System.out.println("Without Whitespace: " + student.removeWhitespace());
+        }
+
+        List<String> namesWithSubstring = Student.listNamesContaining(students, "Smith");
+        System.out.println("Names with 'Smith': " + namesWithSubstring);
+
+        Student.sortStudentsAlphabetically(students);
+        System.out.println("Sorted Students: ");
+        for (Student student : students) {
+            System.out.println(student.name);
+        }
+    }
+}
+Q3:
+import java.util.GregorianCalendar;
+
+// StudentRecord.java
+public class StudentRecord {
+    private static int nextRegistrationNumber = 1000;
+    private int registrationNumber;
+    private String fullName;
+    private GregorianCalendar dateOfJoining;
+    private short semester;
+    private float gpa;
+    private float cgpa;
+
+    // Parameterized constructor
+    public StudentRecord(String fullName, GregorianCalendar dateOfJoining, short semester, float gpa, float cgpa) {
+        this.registrationNumber = generateRegistrationNumber(dateOfJoining.get(GregorianCalendar.YEAR));
+        this.fullName = fullName;
+        this.dateOfJoining = dateOfJoining;
+        this.semester = semester;
+        this.gpa = gpa;
+        this.cgpa = cgpa;
+    }
+
+    // Method to generate registration number
+    private int generateRegistrationNumber(int year) {
+        return year % 100 * 100 + nextRegistrationNumber++;
+    }
+
+    // Display method
+    public void display() {
+        System.out.println("Registration Number: " + registrationNumber);
+        System.out.println("Full Name: " + fullName);
+        System.out.println("Date of Joining: " + dateOfJoining.get(GregorianCalendar.YEAR) + "-" + (dateOfJoining.get(GregorianCalendar.MONTH) + 1) + "-" + dateOfJoining.get(GregorianCalendar.DAY_OF_MONTH));
+        System.out.println("Semester: " + semester);
+        System.out.println("GPA: " + gpa);
+        System.out.println("CGPA: " + cgpa);
+    }
+
+    public static void main(String[] args) {
+        StudentRecord[] records = new StudentRecord[5];
+        records[0] = new StudentRecord("John Doe", new GregorianCalendar(2012, GregorianCalendar.MARCH, 10), (short) 2, 3.5f, 3.7f);
+        records[1] = new StudentRecord("Jane Smith", new GregorianCalendar(2012, GregorianCalendar.JANUARY, 5), (short) 3, 3.8f, 3.6f);
+        records[2] = new StudentRecord("Alice Johnson", new GregorianCalendar(2012, GregorianCalendar.MAY, 15), (short) 1, 3.9f, 3.8f);
+        records[3] = new StudentRecord("Bob Brown", new GregorianCalendar(2012, GregorianCalendar.FEBRUARY, 20), (short) 2, 3.6f, 3.7f);
+        records[4] = new StudentRecord("Charlie Davis", new GregorianCalendar(2012, GregorianCalendar.APRIL, 10), (short) 4, 3.4f, 3.5f);
+
+        System.out.println("Student Records:");
+        for (StudentRecord record : records) {
+            record.display();
+            System.out.println();
+        }
+    }
+}
+Q4//:
+import java.util.Arrays;
+import java.util.Comparator;
+
+// Add these methods to StudentRecord.java
+
+// Method to sort by semester and CGPA
+public static void sortBySemesterAndCGPA(StudentRecord[] records) {
+    Arrays.sort(records, Comparator.comparingInt(StudentRecord::getSemester)
+            .thenComparingDouble(StudentRecord::getCgpa));
+}
+
+// Method to sort by name
+public static void sortByName(StudentRecord[] records) {
+    Arrays.sort(records, Comparator.comparing(StudentRecord::getFullName));
+}
+Q6:
+public class NumberFormatter {
+
+    public static String formatNumber(String number) {
+        // Step 1: Reverse the input string
+        StringBuilder reversed = new StringBuilder(number).reverse();
+        
+        // Step 2: Insert commas
+        StringBuilder formatted = new StringBuilder();
+        for (int i = 0; i < reversed.length(); i++) {
+            if (i > 0 && i % 3 == 0) {
+                formatted.append(',');
+            }
+            formatted.append(reversed.charAt(i));
+        }
+        
+        // Step 3: Reverse the string back to original order
+        return formatted.reverse().toString();
+    }
+
+    public static void main(String[] args) {
+        String input = "1234567";
+        String output = formatNumber(input);
+        System.out.println("Input String : " + input);
+        System.out.println("Output String : " + output);
+    }
+}
+Q5:
+// Add these methods to StudentRecord.java
+
+// List all students whose name starts with a particular character
+public static void listNamesStartingWith(StudentRecord[] records, char character) {
+    for (StudentRecord record : records) {
+        if (record.getFullName().startsWith(String.valueOf(character))) {
+            System.out.println(record.getFullName());
+        }
+    }
+}
+
+// List all student names containing a particular substring
+public static void listNamesContaining(StudentRecord[] records, String substring) {
+    for (StudentRecord record : records) {
+        if (record.getFullName().contains(substring)) {
+            System.out.println(record.getFullName());
+        }
+    }
+}
+
+// Change full name to initials and last name
+public void changeNameToInitials() {
+    String[] parts = fullName.split(" ");
+    StringBuilder newName = new StringBuilder();
+    for (int i = 0; i < parts.length - 1; i++) {
+        newName.append(parts[i].charAt(0)).append(". ");
+    }
+    newName.append(parts[parts.length - 1]);
+    fullName = newName.toString();
+}
+public static void main(String[] args) {
+    StudentRecord[] records = new StudentRecord[5];
+    // Create and initialize records
+    // ...
+
+    // Test changeNameToInitials method
+    for (StudentRecord record : records) {
+        record.changeNameToInitials();
+        record.display();
+    }
+}
+
